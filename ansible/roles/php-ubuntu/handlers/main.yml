@@ -1,0 +1,6 @@
+---
+# handlers file for php-ubuntu
+
+- name: restart phpfpm
+  service: name="php{{ php_v }}-fpm" state=restarted
+  ignore_errors: yes

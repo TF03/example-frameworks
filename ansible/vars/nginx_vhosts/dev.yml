@@ -1,0 +1,11 @@
+# custom vars
+nginx_basic_vhosts: [
+  { server_name: 'adminer-{{ hostname }}', root: '{{ adminer_path }}', template: 'php' },
+]
+nginx_front_vhosts: [
+  { server_name: '_', root: '/var/www/example-frameworks/laravel', template: 'catch_all_yii'},
+  { server_name: '{{ hostname }}', root: '/var/www/example-frameworks/laravel', template: 'yii'},
+]
+nginx_socket_vhosts: [
+
+]

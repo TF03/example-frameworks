@@ -1,0 +1,119 @@
+hostname: dev.example-frames.local
+project_folder: /var/www/example-frameworks
+is_dev: true
+is_production: false
+
+
+# initial
+packages: [
+  git-core,
+  curl,
+  wget,
+  htop,
+  python-psycopg2,
+  python3-psycopg2,
+  python3-pygresql,
+  libpq-dev,
+  unzip,
+  zip,
+  expect-dev,
+  mc
+]
+
+
+# PHP
+php_v: "7.4"
+php_error_reporting: E_ALL
+php_display_errors: Off
+php_upload_max_filesize: 30M
+php_post_max_size: 35M
+php_max_execution_time: 60
+php_memory_limit: 128M
+php_file_uploads: On
+php_max_file_uploads: 20
+php_packages: [
+  "php{{ php_v }}-fpm", # for Nginx
+  "php{{ php_v }}-dev",
+  "php{{ php_v }}-cli",
+  "php{{ php_v }}-pgsql",
+  "php{{ php_v }}-curl",
+  "php{{ php_v }}-gd",
+#  "php{{ php_v }}-mcrypt",
+  "php{{ php_v }}-mbstring",
+  "php{{ php_v }}-intl",
+  "php{{ php_v }}-dom",
+  "php{{ php_v }}-xml",
+  "php{{ php_v }}-zip",
+  "php{{ php_v }}-soap",
+  "php{{ php_v }}-ssh2",
+  "php{{ php_v }}-opcache",
+  "php{{ php_v }}-apcu"
+]
+
+
+# phpredis
+phpredis_lib_branch: 3.1.6
+
+
+# postgresql
+pgdb_version: 11
+pgdb_database: example_db
+pgdb_project_name: example-frameworks
+postgres_pass: 'sudopass'
+pgdb_user: example
+pgdb_password: pass
+
+
+# adminer
+adminer_ver: 4.2.5
+adminer_path: '/usr/share/adminer'
+adminer_clean_directory: false
+adminer_css_theme_url: ''
+# For example: https://raw.githubusercontent.com/arcs-/Adminer-Material-Theme/master/adminer.css
+# For more details: https://www.adminer.org/#extras
+
+
+#Nginx
+nginx_version: 1.14.0
+nginx_user: nginx
+nginx_group: nginx
+nginx_run_user: 'www-data'
+nginx_worker_processes: 1 # recomended: grep processor /proc/cpuinfo | wc -l
+nginx_worker_connections: 1024 # recomended: ulimit -n
+nginx_client_max_body_size: 35M
+nginx_keepalive_requests: 60
+nginx_keepalive_timeout: 100
+nginx_client_header_timeout: 25
+nginx_client_body_timeout: 25
+nginx_send_timeout: 25
+nginx_fastcgi_connect_timeout: 65
+nginx_fastcgi_send_timeout: 65
+nginx_php_unix_socket: /var/run/php/php{{ php_v }}-fpm.sock
+nginx_ngx_ssl_bufsize: 1400
+nginx_3rd_party_modules: [
+  { name: 'headers-more-nginx-module', version: "0.33", archive_name: "headers-more-nginx-module.tar.gz", url: "https://github.com/openresty/headers-more-nginx-module/archive/v0.33.tar.gz" }
+]
+
+
+# xdebug
+xdebug:
+  remote_port: 9000
+  remote_host: 192.168.22.1
+
+
+# vars for nodejs
+nodejs_version: '10.x'
+
+
+# logrotate
+logrotate_scripts: [
+  {
+    name: "nginx",
+    path: "/var/log/nginx/*.log /var/log/nginx/*/*.log",
+    postrotate: "[ -s /run/nginx.pid ] && kill -USR1 `cat /run/nginx.pid`"
+  }
+]
+
+
+# openssl version
+openssl_version: '1.1.0f'

@@ -1,0 +1,5 @@
+---
+# handlers file for phpredis
+- name: restart php-fpm
+  service: name="php{{ php_version }}-fpm" state=restarted
+  ignore_errors: yes

@@ -1,0 +1,5 @@
+---
+# defaults file for nodejs
+
+nodejs_version: '5.x' # 0.10 or 0.12 or 4.x or 5.x
+nodejs_npm_global_packages: [] #  [{name: express, version: ''}]

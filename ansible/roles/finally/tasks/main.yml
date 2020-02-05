@@ -1,0 +1,12 @@
+#- name: Composer install
+#  composer:
+#    command: install
+#    working_dir: "{{project_folder}}"
+#    ignore_platform_reqs: yes
+#  when: is_dev
+
+
+#- include: migrations.yml
+- include: flush_cache.yml
+- include: update_ssl.yml
+- include: check_services.yml
