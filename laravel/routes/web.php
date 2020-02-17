@@ -23,6 +23,4 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-Route::post('/contact/submit', function () {
-    return view('contact');
-})->name('contact-form');
+Route::post('/contact/submit', 'ContactController@submitAction')->name('contact-form');
