@@ -4,6 +4,30 @@
 
 @section('content')
     <h1>Contact page</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
+
+    <form action="{{ route('contact-form') }}" method="post">
+        @csrf
+
+        <div class="form-group">
+            <label for="name">Input name</label>
+            <input type="text" name="name" placeholder="Input name" id="name" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Input email</label>
+            <input type="email" name="email" placeholder="Input email" id="email" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Input title message</label>
+            <input type="text" name="subject" placeholder="Input title message" id="subject" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="message">Input message</label>
+            <textarea name="message" placeholder="Input message" id="message" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Send</button>
+    </form>
 @endsection
