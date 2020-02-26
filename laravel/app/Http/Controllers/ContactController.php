@@ -20,4 +20,18 @@ class ContactController extends Controller
 
         return redirect()->route('home')->with('success', 'Message has been added.');
     }
+
+    public function allData()
+    {
+        $contact = new ContactModel();
+//        return view('messages', ['data' => $contact->all()]);
+//        return view('messages', ['data' => $contact->orderBy('id', 'desc')->skip(1)->take(1)->get()]);
+        return view('messages', ['data' => $contact->inRandomOrder()->get()]);
+    }
+
+    public function viewContact($id)
+    {
+        $contact = ContactModel::find($id);
+        return view('messages', ['data' => $contact]);
+    }
 }
