@@ -25,3 +25,7 @@ Route::get('/contact', function () {
 
 Route::post('/contact/submit', 'ContactController@submitAction')->name('contact-form');
 Route::get('/contact/all', 'ContactController@allData')->name('contact-all');
+Route::get('/contact/{id}', 'ContactController@viewContact')->name('contact-view');
+Route::get('/contact/{id}/update', 'ContactController@updateContact')->name('contact-update');
+Route::post('/contact/{id}/update', 'ContactController@saveUpdateContact')->name('contact-save-update');
+Route::get('/contact/{id}/delete', 'ContactController@deleteContact')->name('contact-delete');

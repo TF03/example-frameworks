@@ -10,7 +10,7 @@
             <h3>{{ $contact->subject }}</h3>
             <p>{{ $contact->email }}</p>
             <p><small>{{ $contact->created_at }}</small></p>
-            <a href="#"><button class="btn btn-warning">View</button></a>
+            <a href="{{ route('contact-view', $contact->id) }}"><button class="btn btn-warning">View</button></a>
         </div>
     @endforeach
 @endsection
