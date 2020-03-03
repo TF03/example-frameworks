@@ -1,3 +1,4 @@
+var t = 0;
 var WIDTH = window.innerWidth;
 var HEIGHT = window.innerHeight;
 
@@ -37,9 +38,17 @@ scene.add(light);
 
 function render() {
     requestAnimationFrame(render);
+
     cube.rotation.y += 0.01;
     torus.rotation.y += 0.01;
-    dodecahedron.rotation.y += 0.01;
+
+    t += 0.01;
+    mathScale = Math.abs(Math.sin(t));
+    torus.scale.x = mathScale;
+    torus.scale.y = mathScale;
+
+    dodecahedron.position.y = -7*Math.sin(t*2);
+
     renderer.render(scene, camera);
 }
 render();
