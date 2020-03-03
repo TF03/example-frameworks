@@ -9,7 +9,21 @@ var STATS = initStats();
 var WIDTH = window.innerWidth;
 var HEIGHT = window.innerHeight;
 
+var normalVector = new THREE.Vector3( 0, 1, 0 );
+var planeConstant = 0.01; // this value must be slightly higher than the groundMesh's y position of 0.0
+var groundPlane = new THREE.Plane( normalVector, planeConstant );
+
+var lightPosition4D = new THREE.Vector4();
+
 var scene = new THREE.Scene();
+
+// камера
+var camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1000);
+camera.position.x = -30;
+camera.position.y = 40;
+camera.position.z = 30;
+
+// Рендер
 var renderer = new THREE.WebGLRenderer();
 renderer.setClearColor(0xEEEEEE);
 renderer.setSize(WIDTH, HEIGHT);
@@ -21,7 +35,7 @@ var axes = new THREE.AxesHelper(20);
 scene.add(axes);
 
 // Плоскость
-var planeGeometry = new THREE.PlaneGeometry(60,20);
+var planeGeometry = new THREE.PlaneGeometry(60,20, 32, 32);
 var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
 var plane = new THREE.Mesh(planeGeometry,planeMaterial);
 plane.receiveShadow = true;
@@ -41,6 +55,8 @@ cube.position.y = 3;
 cube.position.z = 0;
 scene.add(cube);
 
+cubeShadow = new THREE.ShadowMesh(cube);
+scene.add(cubeShadow);
 
 // Сфера
 var sphereGeometry = new THREE.SphereGeometry(4,20,20);
@@ -50,28 +66,25 @@ sphere.position.x = 20;
 sphere.position.y = 4;
 sphere.position.z = 2;
 sphere.castShadow = true;
+sphere.receiveShadow = false;
 scene.add(sphere);
 
-// камера
-var camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT);
-camera.position.x = -30;
-camera.position.y = 40;
-camera.position.z = 30;
+sphereShadow = new THREE.ShadowMesh(sphere);
+scene.add(sphereShadow);
 
 // Свет
 var spotLight = new THREE.SpotLight(0xffffff);
 spotLight.position.set( -40, 60, -10 );
 spotLight.castShadow = true;
-// spotLight.shadow.mapSize.width = 256;
-// spotLight.shadow.mapSize.height = 256;
-// var d = 50;
-// spotLight.shadow.camera.left = -d;
-// spotLight.shadow.camera.right = d;
-// spotLight.shadow.camera.top = d;
-// spotLight.shadow.camera.bottom = -d;
-// spotLight.shadow.camera.far = 200;
 scene.add(spotLight);
 
+
+lightPosition4D.x = spotLight.position.x;
+lightPosition4D.y = spotLight.position.y;
+lightPosition4D.z = spotLight.position.z;
+// amount of light-ray divergence. Ranging from:
+// 0.001 = sunlight(min divergence) to 1.0 = pointlight(max divergence)
+lightPosition4D.w = 0.001; // must be slightly greater than 0, due to 0 causing matrixInverse errors
 
 // $("#WebGL-output").append(renderer.domElement);
 document.body.appendChild(renderer.domElement);
@@ -108,4 +121,7 @@ function animate() {
     step+=0.04;
     sphere.position.x = 20+( 10*(Math.cos(step)));
     sphere.position.y = 2 +( 10*Math.abs(Math.sin(step)));
+
+    cubeShadow.update( groundPlane, lightPosition4D );
+    sphereShadow.update( groundPlane, lightPosition4D );
 }
