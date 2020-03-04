@@ -8,6 +8,13 @@ var step = 0;
 var STATS = initStats();
 var WIDTH = window.innerWidth;
 var HEIGHT = window.innerHeight;
+var controls = new function() {
+    this.rotationSpeed = 0.02;
+    this.bouncingSpeed = 0.03;
+};
+var gui = new dat.GUI();
+gui.add(controls, 'rotationSpeed',0,0.5);
+gui.add(controls, 'bouncingSpeed',0,0.5);
 
 var normalVector = new THREE.Vector3( 0, 1, 0 );
 var planeConstant = 0.01; // this value must be slightly higher than the groundMesh's y position of 0.0
@@ -58,6 +65,25 @@ scene.add(cube);
 cubeShadow = new THREE.ShadowMesh(cube);
 scene.add(cubeShadow);
 
+// Куб
+var cube2Geometry = new THREE.CubeGeometry(4,4,4);
+// var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
+var cube2Material = new THREE.MeshPhongMaterial({
+    specular: 0xD76531,
+    color: 0xef8834,
+    emissive: 0x8c2317,
+    shininess: 50,
+});
+var cube2 = new THREE.Mesh(cube2Geometry, cube2Material);
+cube2.castShadow = true;
+cube2.position.x = -10;
+cube2.position.y = 3;
+cube2.position.z = 0;
+scene.add(cube2);
+
+cube2Shadow = new THREE.ShadowMesh(cube2);
+scene.add(cube2Shadow);
+
 // Сфера
 var sphereGeometry = new THREE.SphereGeometry(4,20,20);
 var sphereMaterial = new THREE.MeshLambertMaterial({color: 0x7777ff /*, wireframe: true*/});
@@ -73,10 +99,15 @@ sphereShadow = new THREE.ShadowMesh(sphere);
 scene.add(sphereShadow);
 
 // Свет
-var spotLight = new THREE.SpotLight(0xffffff);
+// var spotLight = new THREE.AmbientLight(0xffffff);
+var spotLight = new THREE.DirectionalLight(0xffffff);
+// var spotLight = new THREE.SpotLight(0xffffff);
 spotLight.position.set( -40, 60, -10 );
 spotLight.castShadow = true;
 scene.add(spotLight);
+var aLight = new THREE.AmbientLight(0x404040, 1);
+aLight.castShadow = true;
+scene.add(aLight);
 
 
 lightPosition4D.x = spotLight.position.x;
@@ -87,6 +118,9 @@ lightPosition4D.z = spotLight.position.z;
 lightPosition4D.w = 0.001; // must be slightly greater than 0, due to 0 causing matrixInverse errors
 
 // $("#WebGL-output").append(renderer.domElement);
+// var effect = new THREE.AsciiEffect(renderer);
+// effect.setSize(WIDTH, HEIGHT);
+// document.body.appendChild(effect.domElement);
 document.body.appendChild(renderer.domElement);
 render();
 
@@ -99,6 +133,7 @@ function render() {
     STATS.update();
     requestAnimationFrame(render);
     camera.lookAt(scene.position);
+    // effect.render(scene,camera)
     renderer.render(scene, camera);
 }
 
@@ -114,14 +149,19 @@ function initStats() {
 }
 
 function animate() {
-    cube.rotation.x += 0.02;
-    cube.rotation.y += 0.02;
-    cube.rotation.z += 0.02;
+    cube.rotation.x += controls.rotationSpeed;
+    cube.rotation.y += controls.rotationSpeed;
+    cube.rotation.z += controls.rotationSpeed;
 
-    step+=0.04;
+    cube2.rotation.x += controls.rotationSpeed;
+    cube2.rotation.y += controls.rotationSpeed;
+    cube2.rotation.z += controls.rotationSpeed;
+
+    step+=controls.bouncingSpeed;
     sphere.position.x = 20+( 10*(Math.cos(step)));
     sphere.position.y = 2 +( 10*Math.abs(Math.sin(step)));
 
     cubeShadow.update( groundPlane, lightPosition4D );
+    cube2Shadow.update( groundPlane, lightPosition4D );
     sphereShadow.update( groundPlane, lightPosition4D );
 }
