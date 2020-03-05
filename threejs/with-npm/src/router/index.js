@@ -5,11 +5,16 @@ Vue.use(Router)
 
 export default new Router({
     routes: [
-        // {
-        //     path: '/',
-        //     name: 'index',
-        //     component: (resolve) => require(['@/pages/index'], resolve)
-        // },
+        {
+            path: '/',
+            name: 'index',
+            component: (resolve) => require(['@/pages/index'], resolve)
+        },
+        {
+            path: '/test',
+            name: 'test',
+            component: (resolve) => require(['@/pages/test'], resolve)
+        }
         // {
         //     path: '/jump',
         //     name: 'jump',
@@ -25,10 +30,5 @@ export default new Router({
         //     name: 'mall',
         //     component: (resolve) => require(['@/pages/china-map'], resolve)
         // },
-        // {
-        //     path: '/test',
-        //     name: 'test',
-        //     component: (resolve) => require(['@/pages/test'], resolve)
-        // }
     ]
 })
