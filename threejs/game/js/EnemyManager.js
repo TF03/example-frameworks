@@ -39,9 +39,10 @@ class EnemyManager {
         this.pool = new EnemyPool();
         this.clock = new THREE.Clock();
         this.config = {
+            "velocity": 13,
             "max_amount": {
                 "pool": {
-                    "enemy": 50
+                    "enemy": 1//50
                 }
             },
         };
@@ -94,7 +95,7 @@ class EnemyManager {
         if(e.position.z > 10) {
             e.position.z = -30;
         } else {
-            e.position.z += 13 * timeDelta;
+            e.position.z += this.config.velocity * timeDelta;
         }
         // this.move(timeDelta);
 

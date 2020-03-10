@@ -18,17 +18,18 @@ const CAMERA = new THREE.PerspectiveCamera(
 
 const clock = new THREE.Clock();
 
+let PLAYER = new PlayerManager();
 let ENEMY = new EnemyManager();
-let STATSS = null;
+
 /** Init Stats */
 if(GameConfig.stats.enabled) {
-    STATSS = new Stats();
-    STATSS.setMode(0);
-    STATSS.domElement.style.position = 'absolute';
-    STATSS.domElement.style.left = '0px';
-    STATSS.domElement.style.top = '0px';
-    STATSS.domElement.id = 'Stats-output';
-    document.body.appendChild(STATSS.domElement);
+    var STATS = new Stats();
+    STATS.setMode(0);
+    STATS.domElement.style.position = 'absolute';
+    STATS.domElement.style.left = '0px';
+    STATS.domElement.style.top = '0px';
+    STATS.domElement.id = 'Stats-output';
+    document.body.appendChild(STATS.domElement);
 }
 
 /** Init Axis */
@@ -50,19 +51,21 @@ RENDERER.setSize(GameConfig.renderer.width * GameConfig.renderer.render_at, Game
 RENDERER.setPixelRatio( window.devicePixelRatio );
 if(GameConfig.renderer.shadows) {
     RENDERER.shadowMap.enabled = true;
-    RENDERER.shadowMap.type = THREE.PCFSoftShadowMap;
+    RENDERER.shadowMap.type = GameConfig.renderer.shadowType;
 }
 if(GameConfig.renderer.toneMapping) {
-    RENDERER.toneMapping = THREE.Uncharted2ToneMapping;
+    RENDERER.toneMapping = GameConfig.renderer.toneMapType;
 }
 
 RENDERER.domElement.id = 'three-canvas';
 document.body.appendChild(RENDERER.domElement);
 
-const CONTROLS = new THREE.OrbitControls(CAMERA, RENDERER.domElement);
-CONTROLS.enableDamping = true;
-CONTROLS.dampingFactor = 0.05;
-CONTROLS.screenSpacePanning = false;
-CONTROLS.minDistance = 5;
-CONTROLS.maxDistance = 10;
-CONTROLS.maxPolarAngle = Math.PI / 2;
+if(GameConfig.camera.controls) {
+    var CONTROLS = new THREE.OrbitControls(CAMERA, RENDERER.domElement);
+    CONTROLS.enableDamping = true;
+    CONTROLS.dampingFactor = 0.05;
+    CONTROLS.screenSpacePanning = false;
+    CONTROLS.minDistance = 5;
+    CONTROLS.maxDistance = 10;
+    CONTROLS.maxPolarAngle = Math.PI / 2;
+}

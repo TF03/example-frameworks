@@ -17,49 +17,7 @@ class GameManager {
         // hook tab visibility
         // visibly.visibilitychange(this.tabVisibilityChanged);
 
-
-        let geometry = new THREE.BoxGeometry(1, 1, 1)
-        let material = new THREE.MeshPhongMaterial({
-            color: 0x00FF00,
-            flatShading: false,
-            shininess: 0
-            // specular: 0xD76531,
-            // color: 0xef8834,
-            // emissive: 0x8c2317,
-            // shininess: 50,
-            // wireframe: false
-        })
-
-        this.cube = new THREE.Mesh(geometry, material)
-        SCENE.add(this.cube)
-        this.cube.position.y = 0.6
-        this.cube.position.z = 2.5
-        this.cube.castShadow = true
-
-
-        let geometryF = new THREE.BoxGeometry(3, 0.2, 50)
-        let materialF = new THREE.MeshPhongMaterial({
-            color: 0xFF0000,
-            flatShading: false,
-            shininess: 0
-        })
-
-        this.floor = new THREE.Mesh(geometryF, materialF)
-        this.floor.position.z = -18
-        this.floor.receiveShadow = true
-        SCENE.add(this.floor)
-
-
-        this.step = 0;
-        this.pressJump = false;
-        window.addEventListener('keydown', (e) => {
-            // console.log(e.keyCode);
-            // setKeyFromKeyCode(e.keyCode, true);
-            if (e.keyCode == 32) {
-                this.pressJump = true;
-            }
-        });
-
+        PLAYER.init();
         ENEMY.init();
 
         this.render();
@@ -99,22 +57,16 @@ class GameManager {
         if(timeDelta > 0.15) {
             timeDelta = 0.15;
         }
+
+        PLAYER.update(timeDelta);
         ENEMY.update(timeDelta);
-        if (this.pressJump == true) {
-            this.step+=0.04;
-            this.cube.position.y = 0.5 +( 2*Math.abs(Math.sin(this.step)));
-            if (this.cube.position.y < 0.54) {
-                this.step = 0;
-                this.pressJump = false;
-            }
-        }
 
         if(GameConfig.camera.controls) {
             CONTROLS.update();
         }
 
         if(GameConfig.stats.enabled) {
-            STATSS.update();
+            STATS.update();
         }
         RENDERER.render(SCENE, CAMERA);
     }
