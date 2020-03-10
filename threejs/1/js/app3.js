@@ -1,5 +1,5 @@
 /**
- * x - gred
+ * x - red
  * y - green
  * z - blue
  */
@@ -54,7 +54,7 @@ scene.add(plane);
 
 // Куб
 var cubeGeometry = new THREE.CubeGeometry(4,4,4);
-var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
+var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xff0000, wireframe: false});
 var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 cube.castShadow = true;
 cube.position.x = -4;
@@ -62,8 +62,8 @@ cube.position.y = 3;
 cube.position.z = 0;
 scene.add(cube);
 
-cubeShadow = new THREE.ShadowMesh(cube);
-scene.add(cubeShadow);
+// cubeShadow = new THREE.ShadowMesh(cube);
+// scene.add(cubeShadow);
 
 // Куб
 var cube2Geometry = new THREE.CubeGeometry(4,4,4);
@@ -81,12 +81,12 @@ cube2.position.y = 3;
 cube2.position.z = 0;
 scene.add(cube2);
 
-cube2Shadow = new THREE.ShadowMesh(cube2);
-scene.add(cube2Shadow);
+// cube2Shadow = new THREE.ShadowMesh(cube2);
+// scene.add(cube2Shadow);
 
 // Сфера
 var sphereGeometry = new THREE.SphereGeometry(4,20,20);
-var sphereMaterial = new THREE.MeshLambertMaterial({color: 0x7777ff /*, wireframe: true*/});
+var sphereMaterial = new THREE.MeshLambertMaterial({color: 0x7777ff, wireframe: false});
 var sphere = new THREE.Mesh(sphereGeometry,sphereMaterial);
 sphere.position.x = 20;
 sphere.position.y = 4;
@@ -95,8 +95,8 @@ sphere.castShadow = true;
 sphere.receiveShadow = false;
 scene.add(sphere);
 
-sphereShadow = new THREE.ShadowMesh(sphere);
-scene.add(sphereShadow);
+// sphereShadow = new THREE.ShadowMesh(sphere);
+// scene.add(sphereShadow);
 
 // Свет
 // var spotLight = new THREE.AmbientLight(0xffffff);
@@ -126,8 +126,8 @@ render();
 
 function render() {
     // var timer = Date.now() * 0.0002;
-    // camera.position.x = Math.cos(timer) * 10;
-    // camera.position.z = Math.sin(timer) * 10;
+    // spotLight.position.x = Math.cos(timer) * 10;
+    // spotLight.position.z = Math.sin(timer) * 100;
 
     animate();
     STATS.update();
@@ -161,7 +161,7 @@ function animate() {
     sphere.position.x = 20+( 10*(Math.cos(step)));
     sphere.position.y = 2 +( 10*Math.abs(Math.sin(step)));
 
-    cubeShadow.update( groundPlane, lightPosition4D );
-    cube2Shadow.update( groundPlane, lightPosition4D );
-    sphereShadow.update( groundPlane, lightPosition4D );
+    // cubeShadow.update( groundPlane, lightPosition4D );
+    // cube2Shadow.update( groundPlane, lightPosition4D );
+    // sphereShadow.update( groundPlane, lightPosition4D );
 }
