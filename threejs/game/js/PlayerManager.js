@@ -37,7 +37,7 @@ class PlayerManager {
         this.cube.castShadow = true
 
 
-        let geometryF = new THREE.BoxGeometry(3, 0.2, 50)
+        let geometryF = new THREE.BoxGeometry(3, 0.2, 100)
         let materialF = new THREE.MeshPhongMaterial({
             color: 0xFF0000,
             flatShading: false,
@@ -45,7 +45,7 @@ class PlayerManager {
         })
 
         this.floor = new THREE.Mesh(geometryF, materialF)
-        this.floor.position.z = -18
+        this.floor.position.z = -40
         this.floor.receiveShadow = true
         SCENE.add(this.floor)
 

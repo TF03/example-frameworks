@@ -6,8 +6,6 @@ CAMERA.rotation.x = -0.2521795322818087;
 CAMERA.rotation.y = 0.5626175577081858;
 CAMERA.rotation.z = 0.1365832725087437;
 
-console.log(GameConfig.camera.controls);
-console.log(CONTROLS);
 if(GameConfig.camera.controls) {
     // CONTROLS.target.set(-1.2946982583264495, -3.0793822864709634e-18, 9.30358864783445);
     CONTROLS.update();
